@@ -1,5 +1,6 @@
 from hqcell import Cell
 from hqmaze import Maze
+from hqchar import Character
 
 def loadDungeon():
 
@@ -44,9 +45,9 @@ def loadDungeon():
 	# set additional cell attributes
 	maze.maze[4][2].start    = True
 	maze.maze[2][2].treasure = True
-	maze.maze[3][0].monster  = True
-	maze.maze[3][3].monster  = True
-	maze.maze[1][4].monster  = True
+	maze.maze[3][0].monster  = Character("Goblin", 3, 1, 1, False)
+	maze.maze[3][3].monster  = Character("Goblin", 3, 1, 1, False)
+	maze.maze[1][4].monster  = Character("Goblin", 3, 1, 1, False)
 
 	#start position
 	maze.row = 4

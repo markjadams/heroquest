@@ -1,4 +1,5 @@
 import hqcore
+import hqchar
 
 #########################################
 ### Maze                              ###
@@ -39,7 +40,6 @@ class Maze:
 	def canGoSouth(self): return self.getCurrentSquare().canGoSouth()
 	def canGoWest (self): return self.getCurrentSquare().canGoWest()
 	def isMonster (self): return self.getCurrentSquare().isMonster()
-	def isStart   (self): return self.getCurrentSquare().isStart()
 	def isTreasure(self): return self.getCurrentSquare().isTreasure()
 
 	def debugOn(self):
@@ -75,8 +75,8 @@ class Maze:
 	def showMap(self):
 		row = 0
 		print()
-		print("         0          1          2          3          4")
-		while row < 5:
+		print("         0          1          2          3          4          5          6")
+		while row < len(self.maze):
 			line = "     "
 			for square in self.maze[row]:
 				line += square.getMapRow1() + "  "

@@ -10,16 +10,14 @@ class Cell:
 		self.east     = hqcore.intToBool(east)
 		self.south    = hqcore.intToBool(south)
 		self.west     = hqcore.intToBool(west)
-		self.monster  = False
-		self.start    = False
+		self.monster  = None
 		self.treasure = False
 
 	def canGoNorth(self): return self.north
 	def canGoEast (self): return self.east
 	def canGoSouth(self): return self.south
 	def canGoWest (self): return self.west
-	def isMonster (self): return self.monster
-	def isStart   (self): return self.start
+	def isMonster (self): return self.monster != None
 	def isTreasure(self): return self.treasure
 
 	def getMapRow1(self):

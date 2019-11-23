@@ -5,6 +5,7 @@ import hqcombat
 import hqmaze
 import hqgame
 import dungeon1
+import dungeon2
 
 ######################################################
 ### showOpHelp
@@ -20,6 +21,7 @@ def showOpHelp():
 	print("MOVE  Moves the player to the specified location in the current dungeon")
 	print("      arguments: row col")
 	print()
+	
 
 ######################################################
 ### handleOpCommands
@@ -48,7 +50,7 @@ def handleOpCommands(input):
 	print("Operator command not recognised.")
 
 ######################################################
-### splashScreen
+### Show splash screen
 ######################################################
 
 def splashScreen():
@@ -60,25 +62,23 @@ def splashScreen():
 	print("You are entering the dungeon...")
 
 ######################################################
-### splashScreen
+### Fight a monster
 ######################################################
 
-def fight():
-	goblin = hqchar.Character("Goblin", 3, 1, 1, False)
-	hqcombat.fight(hero, goblin)
+def fight(monster):
+	hqcombat.fight(hero, monster)
 	if hero.body == 0:
-		print("You were defeated by the goblin.")
+		print("You were defeated by " + monster.name)
 		exit
-	if goblin.body == 0:
-		print("You defeated the goblin.")
-		maze.getCurrentSquare().monster = False
+	if monster.body == 0:
+		print("You defeated " + monster.name)
 
 ######################################################
 ### Main Program
 ######################################################
 
 hero = hqchar.Character("Thor", 4, 3, 8, True )
-maze = dungeon1.loadDungeon()
+maze = dungeon2.loadDungeon()
 
 splashScreen()
 
@@ -86,10 +86,13 @@ while True:
 	print(maze.describeCurrentSquare())
 
 	if maze.isMonster():
-		fight()
+		monster = maze.getCurrentSquare().monster
+		if monster.body == 0:
+			print("there is a dead " + monster.name + " here.")
+		fight(monster)
 		continue
 
-	action = input(">")
+	action = input(">").lower()
 
 	if action[0:3] == "/op":
 		handleOpCommands(action)
@@ -111,7 +114,7 @@ while True:
 		maze.goWest()
 		continue
 
-	if action == "q":
+	if action == "q" or action == "quit":
 		print("The dungeon has beaten you this time.\n")
 		break
 
