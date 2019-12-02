@@ -7,115 +7,62 @@ import hqgame
 import dungeon1
 import dungeon2
 
-######################################################
-### showOpHelp
-######################################################
-
-def showOpHelp():
-	print("Operator (op) commands can be used to check player status and change game configuration options.")
-	print()
-	print("DEBUG Displays a summary of operator commands")
-	print("      arguments: on|off")
-	print("HELP  Displays a summary of operator commands")
-	print("MAP   Displays a map of the current dungeon")
-	print("MOVE  Moves the player to the specified location in the current dungeon")
-	print("      arguments: row col")
-	print()
-	
+from hqcore import print_file
 
 ######################################################
-### handleOpCommands
+### Handle operator commands
 ######################################################
 
-def handleOpCommands(input):
-	opcmd = input[4:].lower()
-	print("Op Command = '" + opcmd + "'")
+def handle_op_commands(input):
+    opcmd = input[4:].lower()
 
-	if opcmd == "help":
-		showOpHelp()
-		return
-
-	if opcmd == "map":
-		maze.showMap()
-		return
-
-	if action == "/op debug on":
-		maze.debugOn()
-		return
-
-	if action == "/op debug off":
-		maze.debugOff()
-		return
-
-	print("Operator command not recognised.")
-
-######################################################
-### Show splash screen
-######################################################
-
-def splashScreen():
-	print()
-	print("***************************************************")
-	print("***             WELCOME TO HEROQUEST            ***")
-	print("***************************************************")
-	print()
-	print("You are entering the dungeon...")
-
-######################################################
-### Fight a monster
-######################################################
-
-def fight(monster):
-	hqcombat.fight(hero, monster)
-	if hero.body == 0:
-		print("You were defeated by " + monster.name)
-		exit
-	if monster.body == 0:
-		print("You defeated " + monster.name)
+    if opcmd == "help":
+        print_file("ophelp")
+    elif opcmd == "map":
+        maze.show_map()
+    elif action == "/op debug on":
+        maze.debug_on()
+    elif action == "/op debug off":
+        maze.debug_off()
+    else:
+        print("Operator command not recognised. Enter \/OP HELP for help with operator commands.")
 
 ######################################################
 ### Main Program
 ######################################################
 
 hero = hqchar.Character("Thor", 4, 3, 8, True )
-maze = dungeon2.loadDungeon()
+maze = dungeon1.loadDungeon()
 
-splashScreen()
+print_file("splash")
 
 while True:
-	print(maze.describeCurrentSquare())
 
-	if maze.isMonster():
-		monster = maze.getCurrentSquare().monster
-		if monster.body == 0:
-			print("there is a dead " + monster.name + " here.")
-		fight(monster)
-		continue
+    print(maze.describe_current_cell())
 
-	action = input(">").lower()
+    if maze.is_monster():
+        monster = maze.get_current_cell().monster
+        if monster.body == 0:
+            print("there is a dead " + monster.name + " here.")
+        hqcombat.fight(hero, monster)
+        continue
 
-	if action[0:3] == "/op":
-		handleOpCommands(action)
-		continue
+    action = input(">").lower()
 
-	if action == "n":
-		maze.goNorth()
-		continue
-
-	if action == "e":
-		maze.goEast()
-		continue
-
-	if action == "s":
-		maze.goSouth()
-		continue
-
-	if action == "w":
-		maze.goWest()
-		continue
-
-	if action == "q" or action == "quit":
-		print("The dungeon has beaten you this time.\n")
-		break
-
-	print("Command not recognised. Press 'n' to go north, 'e' to go east, , 's' to go south, 'w' to go west, 'q' to quit.")
+    if action[0:3] == "/op":
+        handle_op_commands(action)
+    elif action in ["n", "north"]:
+        print_file("help")
+    elif action in ["n", "north"]:
+        maze.go_north()
+    elif action in ["e", "east"]:
+        maze.go_east()
+    elif action in ["s", "south"]:
+        maze.go_south()
+    elif action in ["w", "west"]:
+        maze.go_west()
+    elif action in ["q", "quit"]:
+        print("The dungeon has beaten you this time.\n")
+        break
+    else:
+        print("Command not recognised. Enter HELP for help with commands.")

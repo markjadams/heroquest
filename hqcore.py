@@ -5,14 +5,14 @@
 # library imports
 import random
 
-def rollDice():
+def roll_dice():
     return random.randint(1, 6)
 
-def intToBool(oneZero):
+def int_to_bool(oneZero):
     return True if oneZero == 1 else False
 
-def boolToStr(val):
+def bool_to_str(val):
     return "X" if val == True else "."
 
 def print_file(file):
-    print open(file, "r").read()
+    print(open("txt\\" + file + ".txt", "r").read())

@@ -6,25 +6,17 @@ import hqcore
 
 class Cell:
 	def __init__(self, north, east, south, west):
-		self.north    = hqcore.intToBool(north)
-		self.east     = hqcore.intToBool(east)
-		self.south    = hqcore.intToBool(south)
-		self.west     = hqcore.intToBool(west)
+		self.north    = hqcore.int_to_bool(north)
+		self.east     = hqcore.int_to_bool(east)
+		self.south    = hqcore.int_to_bool(south)
+		self.west     = hqcore.int_to_bool(west)
 		self.monster  = None
 		self.treasure = False
 
-	def canGoNorth(self): return self.north
-	def canGoEast (self): return self.east
-	def canGoSouth(self): return self.south
-	def canGoWest (self): return self.west
-	def isMonster (self): return self.monster != None
-	def isTreasure(self): return self.treasure
+	#def can_go_north(self): return self.north
+	#def can_go_east (self): return self.east
+	#def can_go_south(self): return self.south
+	#def can_go_west (self): return self.west
+	#def is_monster (self): return self.monster != None
+	#def is_treasure(self): return self.treasure
 
-	def getMapRow1(self):
-		return "..." + ("###" if self.north else "...") + "..."
-
-	def getMapRow2(self):
-		return ("###" if self.west else "...") + "###" + ("###" if self.east else "...")
-
-	def getMapRow3(self):
-		return "..." + ("###" if self.south else "...") + "..."

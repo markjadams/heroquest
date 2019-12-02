@@ -1,0 +1,9 @@
+Basic commands
+
+(N)ORTH     Go north
+(E)AST      Go east
+(S)OUTH     Go south
+(W)EST      Go west
+
+(Q)uit      Quit
+
