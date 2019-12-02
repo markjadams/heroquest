@@ -51,7 +51,7 @@ while True:
 
     if action[0:3] == "/op":
         handle_op_commands(action)
-    elif action in ["n", "north"]:
+    elif action in ["h", "help"]:
         print_file("help")
     elif action in ["n", "north"]:
         maze.go_north()
