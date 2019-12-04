@@ -5,7 +5,15 @@ def get_map_row_1(cell):
     return "###" + ("   " if cell.north else "###") + "###"
 
 def get_map_row_2(cell):
-    return ("   " if cell.west else "###") + "   " + ("   " if cell.east else "###")
+    str = "   " if cell.west else "###"
+    if cell.monster != None:
+        str += " M "
+    elif cell.treasure == True:
+        str += " T "
+    else:
+        str += "   "
+    str += "   " if cell.east else "###"
+    return str
 
 def get_map_row_3(cell):
     return "###" + ("   " if cell.south else "###") + "###"
@@ -18,7 +26,7 @@ def show_map(maze):
         colHeader += "        " + str(col)
     print(colHeader)
 
-    for row in range(len(maze.rows)):
+    for row in range(len(maze.rows) - 1):
         line = "     "
         for cell in maze.rows[row]:
             line += get_map_row_1(cell)
@@ -33,4 +41,4 @@ def show_map(maze):
         print(line)
 
     print("You are currently at row " + str(maze.row) + ", column " + str(maze.col))
-
+    print()
