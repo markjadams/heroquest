@@ -19,6 +19,8 @@ def handle_op_commands(input):
         print_file("ophelp")
     elif opcmd == "map":
         maze.show_map()
+    elif opcmd == "stats":
+        hero.print_stats()
     elif action == "/op debug on":
         maze.debug_on()
     elif action == "/op debug off":
@@ -30,7 +32,7 @@ def handle_op_commands(input):
 ### Main Program
 ######################################################
 hero = hqchar.Character("Thor", 4, 3, 8, True)
-maze = dungeon1.loadDungeon()
+maze = dungeon2.loadDungeon()
 
 print_file("splash")
 
@@ -41,6 +43,12 @@ while True:
         print("A " + maze.get_current_cell().monster.name + " has spotted you. You'll have to fight it!")
         monster = maze.get_current_cell().monster
         hqcombat.fight(hero, monster)
+
+    # Now that the monsters are gone, if there's treasure, pick it up!
+    if maze.get_current_cell().treasure is not None:
+        print("You've found a " + maze.get_current_cell().treasure.name)
+        hero.treasure.append(maze.get_current_cell().treasure)
+        maze.get_current_cell().treasure = None
 
     # Now let's show where we are.
     # If we've just defeated a monster, let's not mention the body.

@@ -15,13 +15,13 @@ class Cell:
 		self.south    = hqcore.int_to_bool(south)
 		self.west     = hqcore.int_to_bool(west)
 		self.monster  = None
-		self.treasure = False
+		self.treasure = None
 
 	###########################################################
 	# Is there a live monster here
 	###########################################################
 	def is_live_monster(self):
-		return self.monster is not None and self.monster.body > 0
+		return self.monster is not None and self.monster.body_remaining > 0
 
 	###########################################################
 	# Is there a dead monster here

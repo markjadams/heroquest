@@ -31,6 +31,9 @@
     <Compile Include="hqgame.py" />
     <Compile Include="hqmap.py" />
     <Compile Include="hqmaze.py" />
+    <Compile Include="hqtreasure.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="txt\" />

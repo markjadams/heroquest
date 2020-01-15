@@ -16,3 +16,6 @@ def bool_to_str(val):
 
 def print_file(file):
     print(open("txt\\" + file + ".txt", "r").read())
+
+def points_to_str(points, points_name=""):
+    return str(points) + " " + points_name + ("" if points_name == "" else " ") + "point" + ("" if points == 1 else "s")

@@ -41,7 +41,7 @@ class Maze:
 			print("There is a dead " + self.get_current_cell().monster.name + " here. You must have been here before.")
 
 		if self.is_dead_end():
-			print("You've hit a dead end.")
+			print("You're in a dead end.")
 
 		message = "You can go "
 		if self.get_current_cell().north: message += "north, "

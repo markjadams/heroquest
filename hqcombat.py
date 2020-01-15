@@ -3,20 +3,22 @@
 #########################################
 
 #project imports
-import hqcore
-import hqchar
+from hqcore import roll_dice
+from hqcore import points_to_str
+
+from hqchar import Character
 
 def get_hits(attackPoints):
     hits = 0
     for a in range(attackPoints):
-        diceResult = hqcore.roll_dice()
+        diceResult = roll_dice()
         if diceResult > 3: hits +=1
     return hits
 
 def get_hero_blocks(defensePoints):
     hits = 0
     for a in range(defensePoints):
-        diceResult = hqcore.roll_dice()
+        diceResult = roll_dice()
         if diceResult == 2 or diceResult == 3:
             hits +=1
     return hits
@@ -24,7 +26,7 @@ def get_hero_blocks(defensePoints):
 def get_monster_blocks(defensePoints):
     hits = 0
     for a in range(defensePoints):
-        diceResult = hqcore.roll_dice()
+        diceResult = roll_dice()
         if diceResult == 1:
             hits +=1
     return hits
@@ -49,25 +51,19 @@ def attack(attacker, defender):
     damage = hits - blocks
     print(attacker.format_name(True) + " inflicted " + str(damage) + " " + ("point" if damage == 1 else "points") + " of damange on " + defender.format_name() + ".")
     #body points
-    defender.body -= damage
-    if defender.body < 1:
+    defender.body_remaining -= damage
+    if defender.body_remaining < 1:
         print(defender.format_name(True) + " was defeated by " + attacker.format_name() + ".")
         return
-    print(defender.format_name(True) + " has " + str(defender.body) + " body points remaining.")
+    print(defender.format_name(True) + " has " + str(defender.body_remaining) + " body points remaining.")
 
 def fight(hero, monster):
 
     print(hero.name + " is fighting the " + monster.name + ".")
-    print(hero.name    + " has " + str(hero.body)    + " body points. The " + monster.name + " has " + str(monster.body) + " body points.")
+    print(hero.name    + " has " + points_to_str(hero.body_remaining, "body") + ". The " + monster.name + " has " + points_to_str(monster.body_remaining, "body") + ".")
 
     while True:
         attack(hero, monster)
-        if monster.body < 1: break
+        if monster.body_remaining < 1: break
         attack(monster, hero)
-        if hero.body < 1: break
-
-    #if hero.body == 0:
-    #    print("You were defeated by the " + monster.name)
-    #    exit
-    #if monster.body == 0:
-    #    print("You defeated the " + monster.name)
+        if hero.body_remaining < 1: break
