@@ -13,7 +13,7 @@ def get_hits(attackPoints):
         if diceResult > 3: hits +=1
     return hits
 
-def get_hreo_clocks(defensePoints):
+def get_hero_blocks(defensePoints):
     hits = 0
     for a in range(defensePoints):
         diceResult = hqcore.roll_dice()
@@ -31,7 +31,7 @@ def get_monster_blocks(defensePoints):
 
 def get_blocks(defender):
     if defender.hero == True:
-        return get_hreo_clocks(defender.defense)
+        return get_hero_blocks(defender.defense)
     return get_monster_blocks(defender.defense)
 
 def attack(attacker, defender):
