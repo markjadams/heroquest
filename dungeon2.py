@@ -7,7 +7,8 @@ def loadDungeon():
 	maze = Maze()
 
 	# Initialize rows - how many rows do you want?
-	maze.rows.append([])
+	# One row already there
+	#maze.rows.append([])
 	maze.rows.append([])
 	maze.rows.append([])
 	maze.rows.append([])
@@ -88,7 +89,7 @@ def loadDungeon():
 	maze.rows[1][4].monster = Character("Goblin", 3, 1, 1, False)
 
 	# Set Start Position
-	maze.row = 4
-	maze.col = 2
+	maze.current_row = 4
+	maze.current_col = 2
 
 	return maze

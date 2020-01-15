@@ -5,6 +5,10 @@ import hqcore
 #########################################
 
 class Cell:
+
+	###########################################################
+	# Initialise class
+	###########################################################
 	def __init__(self, north, east, south, west):
 		self.north    = hqcore.int_to_bool(north)
 		self.east     = hqcore.int_to_bool(east)
@@ -13,10 +17,20 @@ class Cell:
 		self.monster  = None
 		self.treasure = False
 
-	#def can_go_north(self): return self.north
-	#def can_go_east (self): return self.east
-	#def can_go_south(self): return self.south
-	#def can_go_west (self): return self.west
-	#def is_monster (self): return self.monster != None
-	#def is_treasure(self): return self.treasure
+	###########################################################
+	# Is there a live monster here
+	###########################################################
+	def is_live_monster(self):
+		return self.monster is not None and self.monster.body > 0
 
+	###########################################################
+	# Is there a dead monster here
+	###########################################################
+	def is_dead_monster(self):
+		return self.monster is not None and self.monster.body <= 0
+
+	###########################################################
+	# Is there a dead monster here
+	###########################################################
+	def is_treasure(self):
+		return self.treasure

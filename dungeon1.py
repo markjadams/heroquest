@@ -6,7 +6,8 @@ def loadDungeon():
 
 	maze = Maze()
 
-	maze.rows.append([])
+	# One row already there
+	#maze.rows.append([])
 	maze.rows.append([])
 	maze.rows.append([])
 	maze.rows.append([])
@@ -45,12 +46,12 @@ def loadDungeon():
 	# set additional cell attributes
 	maze.rows[4][2].start    = True
 	maze.rows[2][2].treasure = True
-	maze.rows[3][0].monster  = Character("Goblin", 3, 1, 1, False)
-	maze.rows[3][3].monster  = Character("Goblin", 3, 1, 1, False)
-	maze.rows[1][4].monster  = Character("Goblin", 3, 1, 1, False)
+	maze.rows[3][0].monster  = Character("goblin", 3, 1, 1, False)
+	maze.rows[3][3].monster  = Character("goblin", 3, 1, 1, False)
+	maze.rows[1][4].monster  = Character("goblin", 3, 1, 1, False)
 
 	#start position
-	maze.row = 4
-	maze.col = 2
+	maze.current_row = 4
+	maze.current_col = 2
 
 	return maze
