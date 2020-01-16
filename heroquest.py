@@ -8,11 +8,16 @@
 ###                                                         ###
 ###############################################################
 
-from hqchar   import Character
-from hqmaze   import Maze
-from hqcombat import fight
-from hqmap    import show_map
 import re
+
+from hqchar     import Character
+from hqmaze     import Maze
+from hqtreasure import Treasure
+from hqbuilder  import get_treasure
+from hqbuilder  import get_monster
+from hqbuilder  import get_hero
+from hqcombat   import fight
+from hqmap      import show_map
 
 import dungeon1
 import dungeon2
@@ -54,6 +59,19 @@ def handle_op_commands(input: str) -> None:
         print("Teleported to " + str(row) + ", " + str(col))
         return
 
+    # treasure
+    pattern: str = "treasure (\w+)"
+    match = re.search(pattern, opcmd)
+    if match is not None:
+        treasure_name: str = match.group(1)
+        treasure: Treasure = get_treasure(treasure_name)
+        if treasure is None:
+            print ("Unrecognised treasure name '" + treasure_name + "'.")
+        else:
+            hero.treasure.append(treasure)
+            print("Added treasure " + treasure_name)
+        return
+
     # if nothing above was matched, it's junk.
     print("Operator command not recognised. You can type \/OP HELP for help with operator commands.")
 
@@ -61,7 +79,7 @@ def handle_op_commands(input: str) -> None:
 ### Main Program
 ###############################################################
 
-hero: Character = Character("Thor", 4, 3, 8, True)
+hero: Character = get_hero("thor")
 maze: Maze      = dungeon1.loadDungeon()
 
 print_file("splash")

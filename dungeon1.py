@@ -7,6 +7,9 @@ from hqmaze import Maze
 from hqchar import Character
 from hqtreasure import Treasure
 
+from hqbuilder import get_monster
+from hqbuilder import get_treasure
+
 def loadDungeon() -> Maze:
 
 	maze: Maze = Maze()
@@ -49,12 +52,12 @@ def loadDungeon() -> Maze:
 	maze.rows[4].append(Cell(1, 0, 0, 1))
 
 	# Treasure Cells
-	maze.get_cell(2, 2).treasure = Treasure("Gold Coins", 1, 0, 50)
+	maze.get_cell(2, 2).treasure = get_treasure("gold_coins")
 
 	# Monster Cells
-	maze.get_cell(3, 0).monster  = Character("goblin", 3, 1, 1, False)
-	maze.get_cell(3, 3).monster  = Character("goblin", 3, 1, 1, False)
-	maze.get_cell(1, 4).monster  = Character("goblin", 3, 1, 1, False)
+	maze.get_cell(3, 0).monster  = get_monster("goblin")
+	maze.get_cell(3, 3).monster  = get_monster("goblin")
+	maze.get_cell(1, 4).monster  = get_monster("goblin")
 
 	# Set Start Position
 	maze.set_current_position(4, 2)

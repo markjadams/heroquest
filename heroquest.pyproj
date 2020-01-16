@@ -24,6 +24,9 @@
     <Compile Include="dungeon1.py" />
     <Compile Include="dungeon2.py" />
     <Compile Include="heroquest.py" />
+    <Compile Include="hqbuilder.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="hqcell.py" />
     <Compile Include="hqchar.py" />
     <Compile Include="hqcombat.py" />

@@ -60,8 +60,8 @@ class Character:
 		print(" *******************************************************")
 		print(" *** Character Stats for " + self.name)
 		print(" *******************************************************")
-		print(" *** Attack  : " + str(self.attack))
-		print(" *** Defence : " + str(self.defense))
+		print(" *** Attack  : " + str(self.attack ) + " (" + str(self.get_attack_with_bonus() ) + " including bonuses)")
+		print(" *** Defence : " + str(self.defense) + " (" + str(self.get_defense_with_bonus()) + " including bonuses)")
 		print(" *** Health  : " + str(self.health_original) + " (" + str(self.health_remaining) + " remaining)")
 		print(" *** Treasure:")
 		if len(self.treasure) == 0:
