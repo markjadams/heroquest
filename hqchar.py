@@ -1,44 +1,75 @@
-#########################################
-### Character                         ###
-#########################################
+###############################################################
+### Character                                               ###
+###############################################################
+
+from typing     import List
+from hqtreasure import Treasure
 
 class Character:
-	def __init__(self, name, attack, defense, body, is_hero):
-		self.name           = name
-		self.attack         = attack
-		self.defense        = defense
-		self.body_remaining = body
-		self.body_original  = body
-		self.is_hero        = is_hero
-		self.treasure       = []
 
-	def format_name(self, capitalise=False):
+	###########################################################
+	# Initialise class
+	###########################################################
+
+	def __init__(self, name: str, attack: int, defense: int, health: int, is_hero: bool):
+		self.name            : str            = name
+		self.attack          : int            = attack
+		self.defense         : int            = defense
+		self.health_original : int            = health
+		self.health_remaining: int            = health
+		self.is_hero         : bool           = is_hero
+		self.treasure        : List[Treasure] = []
+
+	#######################################################
+	# Format monster names
+	###########################################################
+
+	def format_name(self, capitalise: bool = False) -> str:
 		if self.is_hero:
 			return self.name
 		else:
 			return ("The " if capitalise else "the ") + self.name
 
+	###########################################################
+	# Get total attack including best weapon
+	###########################################################
+
+	def get_attack_with_bonus(self) -> int:
+		bonus = 0
+		for item in self.treasure:
+			if item.attack_bonus > bonus: bonus = item.attack_bonus
+		return self.attack + bonus
+
+	###########################################################
+	# Get total attack including total defense
+	###########################################################
+
+	def get_defense_with_bonus(self) -> int:
+		bonus = 0
+		for item in self.treasure:
+			bonus += item.defense_bonus
+		return self.defense + bonus
+
+	###########################################################
+	# Print character stats
+	###########################################################
+
 	def print_stats(self):
-		print(" *** CHARACTER STATS ***")
-		print(" Name: " + self.name)
-		print(" Attack Dice:  " + str(self.attack))
-		print(" Defence Dice: " + str(self.defense))
-		print(" Body Points:  " + str(self.body_original) + " (" + str(self.body_remaining) + " remaining)")
-		print(" Treasure:")
+		print()
+
+		print(" *******************************************************")
+		print(" *** Character Stats for " + self.name)
+		print(" *******************************************************")
+		print(" *** Attack  : " + str(self.attack))
+		print(" *** Defence : " + str(self.defense))
+		print(" *** Health  : " + str(self.health_original) + " (" + str(self.health_remaining) + " remaining)")
+		print(" *** Treasure:")
 		if len(self.treasure) == 0:
-			print("    (None)")
+			print(" ***    (None)")
 		for treasure in self.treasure:
-			treasure_description = "    " + treasure.name + ": "
-			if treasure.attack_bonus  > 0: treasure_description += "Attack Bonus: (+"  + str(treasure.attack_bonus ) + "), "
-			if treasure.defense_bonus > 0: treasure_description += "Defense Bonus: (+" + str(treasure.defense_bonus) + "), "
-			if treasure.value         > 0: treasure_description += "Value: "           + str(treasure.value) + " gold coins"
+			treasure_description = " ***    " + treasure.name + ": "
+			if treasure.attack_bonus  > 0: treasure_description += "Attack Bonus (+"  + str(treasure.attack_bonus ) + "), "
+			if treasure.defense_bonus > 0: treasure_description += "Defense Bonus (+" + str(treasure.defense_bonus) + "), "
+			if treasure.value         > 0: treasure_description += "Value: "          + str(treasure.value)         + " gold coins"
 			print(treasure_description)
-
-#########################################
-### Set Characters                    ###
-#########################################
-
-barbarian = Character("Thor"  , 4, 3, 4, True )
-goblin    = Character("goblin", 3, 3, 1, False)
-zombie    = Character("zombie", 4, 3, 4, False)
-devil     = Character("devil" , 5, 5, 5, False)
+		print(" *******************************************************")

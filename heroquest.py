@@ -1,24 +1,40 @@
-# # project imports
-import hqcore
-import hqchar
+###############################################################
+###  _   _                _____                 _           ###
+### | | | |              |  _  |               | |          ###
+### | |_| | ___ _ __ ___ | | | |_   _  ___  ___| |_         ###
+### |  _  |/ _ \ '__/ _ \| | | | | | |/ _ \/ __| __|        ###
+### | | | |  __/ | | (_) \ \/' / |_| |  __/\__ \ |_         ###
+### \_| |_/\___|_|  \___/ \_/\_\\__,_|\___||___/\__|        ###
+###                                                         ###
+###############################################################
+
+# project imports
+#import hqcore
+from hqmap  import show_map
+from hqchar import Character
+from hqmaze import Maze
+
 import hqcombat
-import hqmaze
 import hqgame
 import dungeon1
 import dungeon2
 
-from hqcore import print_file
+###############################################################
+### Print file
+###############################################################
+def print_file(filename: str) -> None:
+    print(open("txt\\" + filename + ".txt", "r").read())
 
-######################################################
+###############################################################
 ### Handle operator commands
-######################################################
-def handle_op_commands(input):
-    opcmd = input[4:].lower()
+###############################################################
+def handle_op_commands(input: str) -> None:
+    opcmd: str = input[4:].lower()
 
     if opcmd == "help":
         print_file("ophelp")
     elif opcmd == "map":
-        maze.show_map()
+        show_map(maze)
     elif opcmd == "stats":
         hero.print_stats()
     elif action == "/op debug on":
@@ -26,36 +42,37 @@ def handle_op_commands(input):
     elif action == "/op debug off":
         maze.debug_off()
     else:
-        print("Operator command not recognised. Enter \/OP HELP for help with operator commands.")
+        print("Operator command not recognised. You can type \/OP HELP for help with operator commands.")
 
-######################################################
+###############################################################
 ### Main Program
-######################################################
-hero = hqchar.Character("Thor", 4, 3, 8, True)
-maze = dungeon2.loadDungeon()
+###############################################################
+
+hero: Character = Character("Thor", 4, 3, 8, True)
+maze: Maze      = dungeon2.loadDungeon()
 
 print_file("splash")
 
 while True:
 
     # If there's a live monster here, you have to fight it first
-    if maze.get_current_cell().is_live_monster():
-        print("A " + maze.get_current_cell().monster.name + " has spotted you. You'll have to fight it!")
-        monster = maze.get_current_cell().monster
+    if maze.is_live_monster():
+        print("A " + maze.get_monster().name + " has spotted you. You'll have to fight it!")
+        monster = maze.get_monster()
         hqcombat.fight(hero, monster)
 
     # Now that the monsters are gone, if there's treasure, pick it up!
-    if maze.get_current_cell().treasure is not None:
-        print("You've found a " + maze.get_current_cell().treasure.name)
-        hero.treasure.append(maze.get_current_cell().treasure)
-        maze.get_current_cell().treasure = None
+    if maze.is_treasure():
+        print("You've found a " + maze.get_treasure().name)
+        hero.treasure.append(maze.get_treasure())
+        maze.remove_treasure()
 
     # Now let's show where we are.
     # If we've just defeated a monster, let's not mention the body.
     print(maze.describe_current_cell(False))
 
     # Read input
-    action = input(">").lower()
+    action: str = input(">").lower()
 
     if action[0:3] == "/op":
         handle_op_commands(action)

@@ -1,11 +1,15 @@
+###############################################################
+### Dungeon 1                                               ###
+###############################################################
+
 from hqcell     import Cell
 from hqmaze     import Maze
 from hqchar     import Character
 from hqtreasure import Treasure
 
-def loadDungeon():
+def loadDungeon() -> Maze:
 
-	maze = Maze()
+	maze: Maze = Maze()
 
 	# Initialize rows - how many rows do you want?
 	# One row already there
@@ -82,24 +86,24 @@ def loadDungeon():
 	maze.rows[6].append(Cell(1, 0, 0, 1)) #6
 
 	# Treasure Cells
-	maze.rows[1][1].treasure = Treasure("Shield", 0, 1, 500)
-	maze.rows[5][2].treasure = Treasure("Long Sword", 1, 0, 100)
-	maze.rows[5][5].treasure = Treasure("Helmet", 0, 1, 500)
-	maze.rows[2][4].treasure = Treasure("Magical Sword", 2, 0, 500)
+	maze.get_cell(1, 1).treasure = Treasure("Shield    "   , 0, 1, 100)
+	maze.get_cell(5, 2).treasure = Treasure("Long Sword"   , 1, 0, 100)
+	maze.get_cell(5, 1).treasure = Treasure("Gold Coins"   , 1, 0,  50)
+	maze.get_cell(5, 5).treasure = Treasure("Helmet"       , 0, 1, 100)
+	maze.get_cell(2, 4).treasure = Treasure("Magical Sword", 2, 0, 500)
 
 	# Monster Cells
-	maze.rows[0][4].monster = Character("evil wizard", 6, 2, 2, False)
-	maze.rows[1][1].monster = Character("goblin"     , 3, 1, 1, False)
-	maze.rows[2][2].monster = Character("devil"      , 5, 4, 4, False)
-	maze.rows[3][2].monster = Character("mummy"      , 3, 3, 3, False)
-	maze.rows[3][6].monster = Character("ogre"       , 3, 2, 2, False)
-	maze.rows[4][0].monster = Character("goblin"     , 3, 1, 1, False)
-	maze.rows[5][1].monster = Character("dark elf"   , 4, 2, 2, False)
-	maze.rows[5][2].monster = Character("troll"      , 3, 4, 4, False)
-	maze.rows[5][5].monster = Character("zombie"     , 3, 4, 4, False)
+	maze.get_cell(0, 4).monster = Character("evil wizard", 6, 2, 2, False)
+	maze.get_cell(1, 1).monster = Character("goblin"     , 3, 1, 1, False)
+	maze.get_cell(2, 2).monster = Character("devil"      , 5, 4, 4, False)
+	maze.get_cell(3, 2).monster = Character("mummy"      , 3, 3, 3, False)
+	maze.get_cell(3, 6).monster = Character("ogre"       , 3, 2, 2, False)
+	maze.get_cell(4, 0).monster = Character("goblin"     , 3, 1, 1, False)
+	maze.get_cell(5, 1).monster = Character("dark elf"   , 4, 2, 2, False)
+	maze.get_cell(5, 2).monster = Character("troll"      , 3, 4, 4, False)
+	maze.get_cell(5, 5).monster = Character("zombie"     , 3, 4, 4, False)
 
 	# Set Start Position
-	maze.current_row = 2
-	maze.current_col = 1
+	maze.set_current_position(2, 1)
 
 	return maze

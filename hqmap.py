@@ -1,53 +1,68 @@
-import hqcell
-import hqmaze
+###############################################################
+### Character                                               ###
+###############################################################
 
-def get_map_row_1(cell):
-    return "###" + ("   " if cell.north else "###") + "###"
+from hqcell import Cell
+from hqmaze import Maze
 
-def get_map_row_2(cell, is_current_cell=False):
-    str = "   " if cell.west else "###"
+###############################################################
+### Build map row 1 of 3                                    ###
+###############################################################
+
+def get_map_row_1(cell: Cell) -> str:
+    return "###" + ("   " if cell.can_go_north else "###") + "###"
+
+###############################################################
+### Build map row 2 of 3                                    ###
+###############################################################
+
+def get_map_row_2(cell: Cell, is_current_cell: bool = False) -> str:
+    str = "   " if cell.can_go_west else "###"
     if is_current_cell:
         str += " H "
-    elif cell.monster != None:
-        str += " M "
-    elif cell.treasure == True:
+    elif cell.is_treasure():
         str += " T "
+    elif cell.is_live_monster():
+        str += " M "
     else:
         str += "   "
-    str += "   " if cell.east else "###"
+    str += "   " if cell.can_go_east else "###"
     return str
 
-def get_map_row_3(cell):
-    return "###" + ("   " if cell.south else "###") + "###"
+###############################################################
+### Build map row 3 of 3                                    ###
+###############################################################
 
-def show_map(maze):
+def get_map_row_3(cell: Cell) -> str:
+    return "###" + ("   " if cell.can_go_south else "###") + "###"
 
-    # column header
+###############################################################
+### Print the map                                           ###
+###############################################################
+
+def show_map(maze: Maze):
+
+    # column headers
     colHeader = "\n "
     for col in range(len(maze.rows[0])):
         colHeader += "        " + str(col)
     print(colHeader)
 
+    # iterate rows and columns
     for row in range(len(maze.rows)):
         line = "     "
-        #for cell in maze.rows[row]:
-        #    line += get_map_row_1(cell)
         for col in range(len(maze.rows[row])):
-            line += get_map_row_1(maze.rows[row][col])
+            line += get_map_row_1(maze.get_cell(row, col))
         print(line)
         line = "  " + str(row) + "  "
-        #for cell in maze.rows[row]:
-        #    line += get_map_row_2(cell)
         for col in range(len(maze.rows[row])):
-            line += get_map_row_2(maze.rows[row][col], (row == maze.current_row and col == maze.current_col))
+            line += get_map_row_2(maze.get_cell(row, col), (row == maze.get_current_row() and col == maze.get_current_col()))
         print(line)
         line = "     "
-        #for cell in maze.rows[row]:
-        #    line += get_map_row_3(cell)
         for col in range(len(maze.rows[row])):
             line += get_map_row_3(maze.rows[row][col])
         print(line)
         print(line)
 
-    #print("You are currently at row " + str(maze.current_row) + ", column " + str(maze.current_col))
+    # print an empty line
     print()
