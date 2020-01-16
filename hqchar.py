@@ -11,13 +11,14 @@ class Character:
 	# Initialise class
 	###########################################################
 
-	def __init__(self, name: str, attack: int, defense: int, health: int, is_hero: bool):
+	def __init__(self, name: str, attack: int, defense: int, health: int, is_hero: bool, is_wandering_monster: bool = False):
 		self.name            : str            = name
 		self.attack          : int            = attack
 		self.defense         : int            = defense
 		self.health_original : int            = health
 		self.health_remaining: int            = health
 		self.is_hero         : bool           = is_hero
+		self.is_wandering    : bool           = is_wandering_monster
 		self.treasure        : List[Treasure] = []
 
 	#######################################################

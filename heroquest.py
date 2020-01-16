@@ -16,6 +16,7 @@ from hqtreasure import Treasure
 from hqbuilder  import get_treasure
 from hqbuilder  import get_monster
 from hqbuilder  import get_hero
+from hqbuilder  import get_wandering_monster
 from hqcombat   import fight
 from hqmap      import show_map
 
@@ -25,8 +26,66 @@ import dungeon2
 ###############################################################
 ### Print file
 ###############################################################
+
 def print_file(filename: str) -> None:
     print(open("txt\\" + filename + ".txt", "r").read())
+
+###############################################################
+### Handle spellcasting
+###############################################################
+
+def handle_spellcasting(input: str) -> None:
+    spell: str = input[5:].lower()
+
+    # help
+    if spell == "help":
+        print_file("spellcasting")
+        return
+
+    # potion heal
+    if spell == "heal":
+        hero.health_remaining = hero.health_original
+        print("Potion restored " + hero.name + " to full health.")
+        return
+
+    # teleport
+    pattern: str = "teleport (\d+) (\d+)"
+    match = re.search(pattern, spell)
+    if match is not None:
+        row = int(match.group(1))
+        col = int(match.group(2))
+        maze.set_current_position(row, col)
+        print("Teleported to " + str(row) + ", " + str(col))
+        return
+
+    # spawn
+    pattern: str = "spawn (\w+)"
+    match = re.search(pattern, spell)
+    if match is not None:
+        monster_name: str = match.group(1)
+        monster: Character = get_monster(monster_name)
+        if monster is None:
+            print ("Unrecognised monster name '" + monster_name + "'.")
+        else:
+            maze.get_current_cell().monster = monster
+            print("Spawned a " + treasure_name)
+        return
+
+    # treasure
+    pattern: str = "summon (\w+)"
+    match = re.search(pattern, spell)
+    if match is not None:
+        treasure_name: str = match.group(1)
+        treasure: Treasure = get_treasure(treasure_name)
+        if treasure is None:
+            print ("Unrecognised treasure name '" + treasure_name + "'.")
+        else:
+            hero.treasure.append(treasure)
+            print("Added treasure " + treasure_name)
+        return
+
+    # if nothing above was matched, it's junk.
+    print("The incantation didn't work.")
 
 ###############################################################
 ### Handle operator commands
@@ -49,27 +108,10 @@ def handle_op_commands(input: str) -> None:
         hero.print_stats()
         return
 
-    # teleport
-    pattern: str = "teleport (\d+) (\d+)"
-    match = re.search(pattern, opcmd)
-    if match is not None:
-        row = int(match.group(1))
-        col = int(match.group(2))
-        maze.set_current_position(row, col)
-        print("Teleported to " + str(row) + ", " + str(col))
-        return
-
-    # treasure
-    pattern: str = "treasure (\w+)"
-    match = re.search(pattern, opcmd)
-    if match is not None:
-        treasure_name: str = match.group(1)
-        treasure: Treasure = get_treasure(treasure_name)
-        if treasure is None:
-            print ("Unrecognised treasure name '" + treasure_name + "'.")
-        else:
-            hero.treasure.append(treasure)
-            print("Added treasure " + treasure_name)
+    # potion heal
+    if opcmd == "potion heal":
+        hero.health_remaining = hero.health_original
+        print("Potion restored " + hero.name + " to full health.")
         return
 
     # if nothing above was matched, it's junk.
@@ -80,17 +122,24 @@ def handle_op_commands(input: str) -> None:
 ###############################################################
 
 hero: Character = get_hero("thor")
-maze: Maze      = dungeon1.loadDungeon()
+maze: Maze      = dungeon2.loadDungeon()
 
 print_file("splash")
 
 while True:
 
+    # Check if there's a wandering monster
+    if not maze.is_live_monster() and not maze.is_dead_monster():
+        maze.get_current_cell().monster = get_wandering_monster()
+
     # If there's a live monster here, you have to fight it first
     if maze.is_live_monster():
-        print("A " + maze.get_monster().name + " has spotted you. You'll have to fight it!")
         monster = maze.get_monster()
-        fight(hero, monster)
+        if monster.is_wandering:
+            print("A wandering " + monster.name + " has spotted you and attacks.")
+            fight(monster, hero)
+        else:
+            print("You have found a " + monster.name + ". You'll have to fight it.")
 
     # Now that the monsters are gone, if there's treasure, pick it up!
     if maze.is_treasure():
@@ -107,6 +156,8 @@ while True:
 
     if action[0:3] == "/op":
         handle_op_commands(action)
+    elif action[0:4] == "cast":
+        handle_spellcasting(action)
     elif action in ["h", "help"]:
         print_file("help")
     elif action in ["n", "north"]:

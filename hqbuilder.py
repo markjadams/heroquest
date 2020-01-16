@@ -2,6 +2,7 @@
 ### HQ Builder - Predefined characters and treasure         ###
 ###############################################################
 
+from random     import randint
 from hqchar     import Character
 from hqtreasure import Treasure
 
@@ -25,8 +26,8 @@ def get_monster(name: str) -> Character:
     elif name == "troll"      : monster = Character("troll"      , 3, 4, 4, False)
     elif name == "zombie"     : monster = Character("zombie"     , 3, 4, 4, False)
     elif name == "mummy"      : monster = Character("mummy"      , 3, 3, 3, False)
-    elif name == "dark elf"   : monster = Character("dark_elf"   , 4, 2, 2, False)
-    elif name == "evil wizard": monster = Character("evil_wizard", 6, 2, 2, False)
+    elif name == "dark_elf"   : monster = Character("dark elf"   , 4, 2, 2, False)
+    elif name == "evil_wizard": monster = Character("evil wizard", 6, 2, 2, False)
     elif name == "devil"      : monster = Character("devil"      , 5, 4, 4, False)
     return monster
 
@@ -43,3 +44,28 @@ def get_treasure(name: str) -> Treasure:
     elif name == "glamdring" : treasure = Treasure("Glamdring"        , 3, 0, 500)
     elif name == "mithril"   : treasure = Treasure("Mithril chainmail", 0, 3, 500)
     return treasure
+
+###############################################################
+### Wandering monster                                       ###
+###############################################################
+
+def get_wandering_monster() -> Character:
+
+    dice_roll = randint(1, 100)
+    monster = None
+
+    if   dice_roll ==  1: monster = get_monster("goblin")
+    elif dice_roll ==  2: monster = get_monster("goblin")
+    elif dice_roll ==  3: monster = get_monster("goblin")
+    elif dice_roll ==  4: monster = get_monster("goblin")
+    elif dice_roll ==  5: monster = get_monster("ogre")
+    elif dice_roll ==  6: monster = get_monster("ogre")
+    elif dice_roll ==  7: monster = get_monster("troll")
+    elif dice_roll ==  8: monster = get_monster("zombie")
+    elif dice_roll ==  9: monster = get_monster("mummy")
+    elif dice_roll == 10: monster = get_monster("dark_elf")
+    
+    if monster is not None:
+        monster.is_wandering = True
+
+    return monster

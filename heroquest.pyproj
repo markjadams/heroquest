@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="txt\help.txt" />
+    <Content Include="txt\spellcasting.txt" />
     <Content Include="txt\ophelp.txt" />
     <Content Include="txt\splash.txt" />
   </ItemGroup>

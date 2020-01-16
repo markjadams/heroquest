@@ -1,0 +1,11 @@
+Operator (op) commands can be used to check player status and change game configuration options.
+
+HELP      Displays a summary of spells
+TELEPORT  Teleports the hero to the specified location in the current dungeon
+          arguments: row col
+SUMMON    Summon treasure
+          arguments: sheild|long_sword|helmet|gold|glamdring|mithril
+POTION    Drink a magical potion
+          arguments: heal
+SPAWN     Spawn a monster
+          arguments: goblin|ogre|troll|zombie|mummy|dark_elf|evil_wizard|devil

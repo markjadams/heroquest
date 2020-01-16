@@ -3,7 +3,3 @@ Operator (op) commands can be used to check player status and change game config
 HELP      Displays a summary of operator commands
 MAP       Displays a map of the current dungeon
 STATS     Displays current stats for the hero
-TELEPORT  Teleports the hero to the specified location in the current dungeon
-          arguments: row col
-TREASURE  Gives the hero treasure
-          arguments: sheild|long_sword|helmet|gold|glamdring|mithril
