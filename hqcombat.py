@@ -1,73 +1,81 @@
-#########################################
-### Combat                            ###
-#########################################
+###############################################################
+# Combat
+###############################################################
 
 #project imports
-import hqcore
-import hqchar
+#from hqcore import roll_dice
+#from hqcore import points_to_str
 
-def get_hits(attackPoints):
-    hits = 0
-    for a in range(attackPoints):
-        diceResult = hqcore.roll_dice()
-        if diceResult > 3: hits +=1
-    return hits
+from random import randint
+from hqchar import Character
 
-def get_hreo_clocks(defensePoints):
+###############################################################
+# Roll a D6 dice
+###############################################################
+
+def roll_dice() -> int:
+    return randint(1, 6)
+
+###############################################################
+# Roll attack dice
+###############################################################
+
+def get_hits(character: Character) -> int:
     hits = 0
-    for a in range(defensePoints):
-        diceResult = hqcore.roll_dice()
-        if diceResult == 2 or diceResult == 3:
+    for a in range(character.get_attack_with_bonus()):
+        diceResult = roll_dice()
+        if diceResult > 3:
             hits +=1
     return hits
 
-def get_monster_blocks(defensePoints):
+###############################################################
+# Roll defense dice
+###############################################################
+
+def get_blocks(character: Character) -> int:
     hits = 0
-    for a in range(defensePoints):
-        diceResult = hqcore.roll_dice()
-        if diceResult == 1:
+    for a in range(character.get_defense_with_bonus()):
+        diceResult = roll_dice()
+        if diceResult <= (2 if character.is_hero else 1):
             hits +=1
     return hits
 
-def get_blocks(defender):
-    if defender.hero == True:
-        return get_hreo_clocks(defender.defense)
-    return get_monster_blocks(defender.defense)
+###############################################################
+# Perform a single attack and block, reporting outocme
+###############################################################
 
-def attack(attacker, defender):
+def attack(attacker: Character, defender: Character):
     # attack dice
-    hits = get_hits(attacker.attack)
+    hits = get_hits(attacker)
     if hits == 0:
-        print(attacker.name + " attacked " + defender.name + " but missed.")
+        print(attacker.format_name(True) + " attacked " + defender.format_name() + " but missed.")
         return
     # defense dice
     blocks = get_blocks(defender)
     if blocks >= hits:
-        print(attacker.name + " attacked but " + defender.name + " blocked.")
+        print(attacker.format_name(True) + " attacked but " + defender.format_name() + " blocked.")
         return
     # damage
     damage = hits - blocks
-    print(attacker.name + "  inflicted " + str(damage) + " points of damange on " + defender.name + ".")
+    print(attacker.format_name(True) + " inflicted " + str(damage) + " damange on " + defender.format_name() + ".")
     #body points
-    defender.body -= damage
-    if defender.body < 1:
-        print(str(defender.name) + " is defeated.")
-        return
-    print(str(defender.name) + " has " + str(defender.body) + " body points remaining.")
+    defender.health_remaining -= damage
+    if defender.health_remaining < 1:
+        print(defender.format_name(True) + " was defeated by " + attacker.format_name() + ".")
+    else:
+        print(defender.format_name(True) + " has " + str(defender.health_remaining) + " health remaining.")
 
-def fight(hero, monster):
+###############################################################
+# Fight...to the death!
+###############################################################
 
-    print(hero.name + " is fighting " + monster.name + ".")
-    print(hero.name    + " has " + str(hero.body)    + " body points. " + monster.name + " has " + str(monster.body) + " body points.")
+def fight(attacker: Character, defender: Character):
+
+    print(attacker.format_name(True) + " is fighting " + defender.format_name() + ".")
+    print(attacker.format_name(True) + " has " + str(attacker.health_remaining) + ". " + defender.format_name(True) + " has " + str(defender.health_remaining) + ".")
 
     while True:
-        attack(hero, monster)
-        if monster.body < 1: break
-        attack(monster, hero)
-        if hero.body < 1: break
-
-    if hero.body == 0:
-        print("You were defeated by " + monster.name)
-        exit
-    if monster.body == 0:
-        print("You defeated " + monster.name)
+        attack(attacker, defender)
+        if defender.health_remaining < 1: break
+        attack(defender, attacker)
+        if attacker.health_remaining < 1: break

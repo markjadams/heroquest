@@ -1,12 +1,21 @@
+###############################################################
+### Dungeon 1                                               ###
+###############################################################
+
 from hqcell import Cell
 from hqmaze import Maze
 from hqchar import Character
+from hqtreasure import Treasure
 
-def loadDungeon():
+from hqbuilder import get_monster
+from hqbuilder import get_treasure
 
-	maze = Maze()
+def loadDungeon() -> Maze:
 
-	maze.rows.append([])
+	maze: Maze = Maze()
+
+	# One row already there
+	#maze.rows.append([])
 	maze.rows.append([])
 	maze.rows.append([])
 	maze.rows.append([])
@@ -42,15 +51,15 @@ def loadDungeon():
 	maze.rows[4].append(Cell(0, 1, 0, 1))
 	maze.rows[4].append(Cell(1, 0, 0, 1))
 
-	# set additional cell attributes
-	maze.rows[4][2].start    = True
-	maze.rows[2][2].treasure = True
-	maze.rows[3][0].monster  = Character("Goblin", 3, 1, 1, False)
-	maze.rows[3][3].monster  = Character("Goblin", 3, 1, 1, False)
-	maze.rows[1][4].monster  = Character("Goblin", 3, 1, 1, False)
+	# Treasure Cells
+	maze.get_cell(2, 2).treasure = get_treasure("gold_coins")
 
-	#start position
-	maze.row = 4
-	maze.col = 2
+	# Monster Cells
+	maze.get_cell(3, 0).monster  = get_monster("goblin")
+	maze.get_cell(3, 3).monster  = get_monster("goblin")
+	maze.get_cell(1, 4).monster  = get_monster("goblin")
+
+	# Set Start Position
+	maze.set_current_position(4, 2)
 
 	return maze
