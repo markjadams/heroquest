@@ -49,15 +49,14 @@ def loadDungeon() -> Maze:
 	maze.rows[4].append(Cell(1, 0, 0, 1))
 
 	# Treasure Cells
-	maze.rows[2][2].treasure = Treasure("Gold Coins", 1, 0, 50)
+	maze.get_cell(2, 2).treasure = Treasure("Gold Coins", 1, 0, 50)
 
 	# Monster Cells
-	maze.rows[3][0].monster  = Character("goblin", 3, 1, 1, False)
-	maze.rows[3][3].monster  = Character("goblin", 3, 1, 1, False)
-	maze.rows[1][4].monster  = Character("goblin", 3, 1, 1, False)
+	maze.get_cell(3, 0).monster  = Character("goblin", 3, 1, 1, False)
+	maze.get_cell(3, 3).monster  = Character("goblin", 3, 1, 1, False)
+	maze.get_cell(1, 4).monster  = Character("goblin", 3, 1, 1, False)
 
 	# Set Start Position
-	maze.current_row = 4
-	maze.current_col = 2
+	maze.set_current_position(4, 2)
 
 	return maze

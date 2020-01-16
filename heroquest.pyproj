@@ -27,8 +27,6 @@
     <Compile Include="hqcell.py" />
     <Compile Include="hqchar.py" />
     <Compile Include="hqcombat.py" />
-    <Compile Include="hqcore.py" />
-    <Compile Include="hqgame.py" />
     <Compile Include="hqmap.py" />
     <Compile Include="hqmaze.py" />
     <Compile Include="hqtreasure.py">

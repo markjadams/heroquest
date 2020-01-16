@@ -8,7 +8,3 @@ class Treasure:
 		self.attack_bonus  = attack_bonus
 		self.defense_bonus = defense_bonus
 		self.value         = value
-
-#########################################
-### Set Characters                    ###
-#########################################
