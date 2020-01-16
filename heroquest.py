@@ -10,12 +10,11 @@
 
 # project imports
 #import hqcore
-from hqmap  import show_map
-from hqchar import Character
-from hqmaze import Maze
+from hqchar   import Character
+from hqmaze   import Maze
+from hqcombat import fight
+from hqmap    import show_map
 
-import hqcombat
-import hqgame
 import dungeon1
 import dungeon2
 
@@ -49,7 +48,7 @@ def handle_op_commands(input: str) -> None:
 ###############################################################
 
 hero: Character = Character("Thor", 4, 3, 8, True)
-maze: Maze      = dungeon2.loadDungeon()
+maze: Maze      = dungeon1.loadDungeon()
 
 print_file("splash")
 
@@ -59,7 +58,7 @@ while True:
     if maze.is_live_monster():
         print("A " + maze.get_monster().name + " has spotted you. You'll have to fight it!")
         monster = maze.get_monster()
-        hqcombat.fight(hero, monster)
+        fight(hero, monster)
 
     # Now that the monsters are gone, if there's treasure, pick it up!
     if maze.is_treasure():
