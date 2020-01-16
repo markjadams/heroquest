@@ -8,12 +8,11 @@
 ###                                                         ###
 ###############################################################
 
-# project imports
-#import hqcore
 from hqchar   import Character
 from hqmaze   import Maze
 from hqcombat import fight
 from hqmap    import show_map
+import re
 
 import dungeon1
 import dungeon2
@@ -30,18 +29,33 @@ def print_file(filename: str) -> None:
 def handle_op_commands(input: str) -> None:
     opcmd: str = input[4:].lower()
 
+    # help
     if opcmd == "help":
         print_file("ophelp")
-    elif opcmd == "map":
+        return
+
+    # map
+    if opcmd == "map":
         show_map(maze)
-    elif opcmd == "stats":
+        return
+
+    # stats
+    if opcmd == "stats":
         hero.print_stats()
-    elif action == "/op debug on":
-        maze.debug_on()
-    elif action == "/op debug off":
-        maze.debug_off()
-    else:
-        print("Operator command not recognised. You can type \/OP HELP for help with operator commands.")
+        return
+
+    # teleport
+    pattern: str = "teleport (\d+) (\d+)"
+    match = re.search(pattern, opcmd)
+    if match is not None:
+        row = int(match.group(1))
+        col = int(match.group(2))
+        maze.set_current_position(row, col)
+        print("Teleported to " + str(row) + ", " + str(col))
+        return
+
+    # if nothing above was matched, it's junk.
+    print("Operator command not recognised. You can type \/OP HELP for help with operator commands.")
 
 ###############################################################
 ### Main Program
