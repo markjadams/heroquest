@@ -72,7 +72,7 @@ def attack(attacker: Character, defender: Character):
 def fight(attacker: Character, defender: Character):
 
     print(attacker.format_name(True) + " is fighting " + defender.format_name() + ".")
-    print(attacker.format_name(True) + " has " + str(attacker.health_remaining) + ". " + defender.format_name(True) + " has " + str(defender.health_remaining) + ".")
+    print(attacker.format_name(True) + " has " + str(attacker.health_remaining) + " health. " + defender.format_name(True) + " has " + str(defender.health_remaining) + " health.")
 
     while True:
         attack(attacker, defender)

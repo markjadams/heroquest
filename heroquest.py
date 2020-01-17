@@ -140,6 +140,12 @@ while True:
             fight(monster, hero)
         else:
             print("You have found a " + monster.name + ". You'll have to fight it.")
+            fight(hero, monster)
+        if hero.health_remaining < 1:
+            print()
+            print("The dungeon has beaten you this time.")
+            print()
+            break
 
     # Now that the monsters are gone, if there's treasure, pick it up!
     if maze.is_treasure():

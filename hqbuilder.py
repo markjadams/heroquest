@@ -27,8 +27,8 @@ def get_monster(name: str) -> Character:
     elif name == "zombie"     : monster = Character("zombie"     , 3, 4, 4, False)
     elif name == "mummy"      : monster = Character("mummy"      , 3, 3, 3, False)
     elif name == "dark_elf"   : monster = Character("dark elf"   , 4, 2, 2, False)
-    elif name == "evil_wizard": monster = Character("evil wizard", 6, 2, 2, False)
-    elif name == "devil"      : monster = Character("devil"      , 5, 4, 4, False)
+    elif name == "evil_wizard": monster = Character("evil wizard", 8, 3, 3, False)
+    elif name == "devil"      : monster = Character("devil"      , 6, 6, 6, False)
     return monster
 
 ###############################################################
